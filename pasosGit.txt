@@ -1,0 +1,10 @@
+Datos para GIT
+UserName docentegit
+Correo docente.git@gmail.com
+
+Sofware para menejo de contraseñas
+KeepassXc
+sudo apt install keepassxc
+
+GENERAR UN TOCKEN CLASICO
+- Ingresar a settings -> Developers Settings 
