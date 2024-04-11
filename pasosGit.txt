@@ -8,3 +8,30 @@ sudo apt install keepassxc
 
 GENERAR UN TOCKEN CLASICO
 - Ingresar a settings -> Developers Settings 
+
+Instalar GIT
+sudo apt install git
+
+Inicialización
+git config --global user.email "docente.git@gmail.com"
+git config --global user.name "docentegit"
+
+- Inicializar la carpeta dentro de "tecweb2-doc"
+git init
+- Adicionamos el archivo pasosGit.txt
+git add pasosGit.txt
+- Realizar un commit de cambio
+git commit -m "primer archivo en repositorio"
+- Branch
+git branch -M main
+-Adicionar el parametro de origen.
+git remote add origin https://github.com/docentegit/tecweb2-doc.git
+- Push de los cambios
+git push -u origin main
+
+- REALIZAR UNA MODIFICACIÓN AL ARCHIVO pasosGit.txt y mostrar los cambios
+ en gihub.
+1. Modificar el archivo.
+2. git add pasosGit.txt
+3. git commit -m "Modificando el archivo en repositorio"
+4. git push -u origin main
