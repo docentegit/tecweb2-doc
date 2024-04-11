@@ -12,10 +12,6 @@ GENERAR UN TOCKEN CLASICO
 Instalar GIT
 sudo apt install git
 
-Inicialización
-git config --global user.email "docente.git@gmail.com"
-git config --global user.name "docentegit"
-
 - Inicializar la carpeta dentro de "tecweb2-doc"
 git init
 - Adicionamos el archivo pasosGit.txt
