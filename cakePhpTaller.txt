@@ -1,0 +1,101 @@
+https://book.cakephp.org/3/es/quickstart.html 
+ 
+ sudo apt install curl php-cli php-mbstring git unzip
+ curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
+ HASH=`curl -sS https://composer.github.io/installer.sig`
+ php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+composer
+sudo apt-get install apache2 php libapache2-mod-php php-{cli,common,curl,zip,gd,mysql,xml,mbstring,json,intl,bcmath,sqlite3}
+chown -R www-data:www-data /var/www/html/p02/
+sudo systemctl restart apache2
+sudo a2enmod rewrite
+sudo nano /etc/apache2/apache2.conf
+  <Directory /var/www/>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+</Directory>
+
+systemctl restart apache2
+cd /var/www/
+sudo chmod -R 777 html/
+cd html
+composer create-project --prefer-dist cakephp/app:~4.0 app
+cd /var/www/html/app
+bin/cake server -H 0.0.0.0
+
+##base de datos
+196  mysql
+create database cake_bookmarks;
+use cake_bookmarks
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created DATETIME,
+    modified DATETIME
+);
+
+CREATE TABLE bookmarks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    title VARCHAR(50),
+    description TEXT,
+    url TEXT,
+    created DATETIME,
+    modified DATETIME,
+    FOREIGN KEY user_key (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE tags (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255),
+    created DATETIME,
+    modified DATETIME,
+    UNIQUE KEY (title)
+);
+
+CREATE TABLE bookmarks_tags (
+    bookmark_id INT NOT NULL,
+    tag_id INT NOT NULL,
+    PRIMARY KEY (bookmark_id, tag_id),
+    FOREIGN KEY tag_key(tag_id) REFERENCES tags(id),
+    FOREIGN KEY bookmark_key(bookmark_id) REFERENCES bookmarks(id)
+);
+  197  nano config/app_local.php 
+   'Datasources' => [
+        'default' => [
+            'host' => 'localhost',
+            /*
+             * CakePHP will use the default DB port based on the driver selected
+             * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
+             * the following line and set the port accordingly
+             */
+            //'port' => 'non_standard_port_number',
+
+            'username' => 'root',
+            'password' => '123123',
+
+            'database' => 'cake_bookmarks',
+            /*
+             * If not using the default 'public' schema with the PostgreSQL driver
+             * set it here.
+             */
+            //'schema' => 'myapp',
+
+            /*
+             * You can use a DSN string to set the entire configuration
+             */
+            'url' => env('DATABASE_URL', null),
+        ],
+
+
+  199  bin/cake bake all users
+  200  bin/cake bake all bookmarks
+  201  bin/cake bake all tags
+  
+  http://192.168.56.111:8765/bookmarks
+  http://192.168.56.111:8765/users
+  http://192.168.56.111:8765/tags
+
